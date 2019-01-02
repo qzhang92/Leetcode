@@ -29,3 +29,46 @@ class Solution {
         return max;
     }
 }
+
+//Solution 2 Divide & Conquer
+class Solution {
+    public int maxSubArray(int[] nums) {
+        if(nums.length == 0) return 0;
+        return counstructfunction(nums, 0, nums.length - 1);
+    }
+    private int counstructfunction(int[] num, int low, int high){
+        if(low == high){
+            return num[low];
+        }
+        int mid = low + (high - low) / 2;
+        int left = counstructfunction(num, low, mid);
+        int right = counstructfunction(num, mid + 1, high);
+        int cross = anotherfunction(num, low, mid, high);
+        if(left >= right && left >= cross){
+            return left;
+        }else if(right >= left && right >= cross){
+            return right;
+        } else{
+            return cross;
+        }
+    }
+    private int anotherfunction(int[] num1, int low, int mid, int high){
+        int sum = 0;
+        int leftsum = Integer.MIN_VALUE;
+        for(int i = mid; i >= low; i--){
+            sum += num1[i];
+            if(sum > leftsum){
+                leftsum = sum;
+            }
+        }
+        sum = 0;
+        int rightsum = Integer.MIN_VALUE;
+        for(int i = mid + 1; i <= high; i++){
+            sum += num1[i];
+            if(sum > rightsum){
+                rightsum = sum;
+            }
+        }
+        return leftsum + rightsum;
+    }
+}
