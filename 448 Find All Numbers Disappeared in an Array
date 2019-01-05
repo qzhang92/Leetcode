@@ -61,3 +61,23 @@ class Solution {
         return ret;
     }
 }
+
+
+//Solution 3. Posted sol1 in discussion. Got an idea how to revise sol1. Use array as a HashMap. array[key] = Value. This is extemely useful per my understanding since iterating an array is way easier than iterating a HashMap.
+class Solution {
+    public List<Integer> findDisappearedNumbers(int[] nums) {
+        List<Integer> result = new ArrayList<Integer>();
+        if(nums.length == 0) return result;
+        //Arrays.sort(nums);
+        int[] count = new int[nums.length + 1];
+        for(int i = 0; i < nums.length; i++){
+            count[nums[i]]++;
+        }
+        for(int j = 1; j < count.length; j++){
+            if(count[j] == 0){
+                result.add(j);
+            }
+        }
+        return result;
+    }
+}
