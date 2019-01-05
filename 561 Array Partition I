@@ -1,0 +1,57 @@
+/*
+
+Given an array of 2n integers, your task is to group these integers into n pairs of integer, say (a1, b1), (a2, b2), ..., (an, bn) which makes sum of min(ai, bi) for all i from 1 to n as large as possible.
+
+Example 1:
+
+Input: [1,4,3,2]
+
+Output: 4
+Explanation: n is 2, and the maximum sum of pairs is 4 = min(1, 2) + min(3, 4).
+Note:
+
+n is a positive integer, which is in the range of [1, 10000].
+All the integers in the array will be in the range of [-10000, 10000].
+
+*/
+
+//Solutin 1. Brute force solution
+class Solution {
+    public int arrayPairSum(int[] nums) {
+        if(nums.length == 0 || nums.length % 2 == 1) return 0;
+        Arrays.sort(nums);
+        int result = 0;
+        for(int i = 0; i < nums.length; i = i + 2){
+            result = result + nums[i];
+        }
+        return result;
+    }
+}
+
+//Solution 2. I do not understand
+class Solution {
+    public int arrayPairSum(int[] nums) {
+        int[] exist = new int[20001];
+		for (int i = 0; i < nums.length; i++) {
+			exist[nums[i] + 10000]++;
+		}
+		int sum = 0;
+		boolean odd = true;
+		for (int i = 0; i < exist.length; i++) {
+			while (exist[i] > 0) {
+				if (odd) {
+					sum += i - 10000;
+				}
+				odd = !odd;
+				exist[i]--;
+			}
+		return sum;
+    }
+}
+//I am a neophyte so I am learning now but after spending maybe 30 minutes drawing the solution out on paper, I finally understand what is happening and I’ll explain the most important parts.
+
+I do not know the name of this kind of sort or where this trick comes from but I added it to my toolkit. The most important aspect of this solution is the first 4 lines of the method. That is, the creation of the array exist (remember in Java, all int arrays are initialized to 0). What the for loop does is essentially sort this array in O(n) time due to the property of knowing the maximum length of the array and knowing the scope of the integers in the array. Because we know both, we create an array and “sort” nums by flagging elements in exist to 1 from 0 in constant time. After the for loop is finished, exist is an array of all 0’s and a 1 for each element (+ 10000). This means that exist is now nums “sorted” in ascending order with a lot of 0’s in between the 1’s.
+
+The second loop essentially adds the numbers together knowing that we need the minimum of the pairs. In this case, the odd/even paradigm here is used so that only the odd numbers are added as they are the minimum of the pairs. I do not know why the size/length of sums.length is 20001.
+
+So in short,if you know the SCOPE and the MAXIMUM POSSIBLE LENGTH of an integer array, you can sort it in O(n) time with this powerful trick.
