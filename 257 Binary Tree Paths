@@ -47,3 +47,5 @@ class Solution {
         return result;
     }
 }
+
+//ArrayList is also ok. But a little slower
