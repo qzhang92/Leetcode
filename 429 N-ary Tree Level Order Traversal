@@ -1,0 +1,57 @@
+/*
+
+Given an n-ary tree, return the level order traversal of its nodes' values. (ie, from left to right, level by level).
+
+For example, given a 3-ary tree:
+
+
+
+ 
+
+We should return its level order traversal:
+
+[
+     [1],
+     [3,2,4],
+     [5,6]
+]
+
+*/
+
+/*
+// Definition for a Node.
+class Node {
+    public int val;
+    public List<Node> children;
+
+    public Node() {}
+
+    public Node(int _val,List<Node> _children) {
+        val = _val;
+        children = _children;
+    }
+};
+*/
+class Solution {
+    public List<List<Integer>> levelOrder(Node root) {
+        if(root == null) return new ArrayList<>();
+        List<List<Integer>> result = new ArrayList<>();
+        Queue<Node> que = new LinkedList<>();
+        que.add(root);
+        while(!que.isEmpty()){
+            List<Integer> count = new ArrayList<>();
+            int size = que.size();
+            for(int i = 0; i < size; i++){
+                Node current = que.poll();
+                count.add(current.val);
+                if(current.children != null){
+                    for(int j = 0; j < current.children.size();j++){
+                        que.add(current.children.get(j));
+                    }
+                }
+            }
+            result.add(count);
+        }
+        return result;
+    }
+}
