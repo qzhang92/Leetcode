@@ -37,3 +37,19 @@ public ListNode reverseInPairs(ListNode head) {
     }
     return dummy.next;
   }
+  
+  
+  Recursion
+  
+  public ListNode reverseInPairs(ListNode head) {
+    // Write your solution here
+    if(head == null || head.next == null) {
+       return head;
+    }
+    
+    ListNode newHead = head.next;
+    ListNode temp = newHead.next;
+    newHead.next = head;
+    head.next = reverseInPairs(temp);
+    return newHead;
+  }
